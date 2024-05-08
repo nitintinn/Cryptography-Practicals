@@ -1,0 +1,46 @@
+#include <iostream>
+#include <string>
+#include <openssl/sha.h>
+#include <openssl/evp.h>
+
+using namespace std;
+
+int main() {
+  // Create a message to sign.
+  string message = "This is the message to sign.";
+
+  // Generate a hash of the message.
+  unsigned char hash[SHA_DIGEST_LENGTH];
+  SHA1((unsigned char*)message.c_str(), message.length(), hash);
+
+  // Create a private key.
+  EVP_PKEY *privateKey = EVP_PKEY_new();
+  EVP_PKEY_assign_RSA(privateKey, RSA_generate_key(2048, 3, NULL, NULL));
+
+  // Sign the hash with the private key.
+  unsigned char signature[EVP_PKEY_size(privateKey)];
+  unsigned int signatureLength;
+  EVP_SignInit(EVP_sha1(), NULL, privateKey, NULL);
+  EVP_SignUpdate(EVP_sha1(), hash, SHA_DIGEST_LENGTH);
+  EVP_SignFinal(EVP_sha1(), signature, &signatureLength, privateKey);
+
+  // Verify the signature with the public key.
+  EVP_PKEY *publicKey = EVP_PKEY_new();
+  EVP_PKEY_assign_RSA(publicKey, EVP_PKEY_get1_RSA(privateKey));
+  EVP_VerifyInit(EVP_sha1(), NULL, publicKey, NULL);
+  EVP_VerifyUpdate(EVP_sha1(), hash, SHA_DIGEST_LENGTH);
+  int verificationResult = EVP_VerifyFinal(EVP_sha1(), signature, signatureLength, publicKey);
+
+  // Print the verification result.
+  if (verificationResult == 1) {
+    cout << "The signature is valid." << endl;
+  } else {
+    cout << "The signature is invalid." << endl;
+  }
+
+  // Clean up.
+  EVP_PKEY_free(privateKey);
+  EVP_PKEY_free(publicKey);
+
+  return 0;
+}

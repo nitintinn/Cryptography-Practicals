@@ -1,0 +1,30 @@
+C/C++ Programs:
+1. Caesar Cipher
+2. Mono Alphabetic Cipher
+3. Railfence Cipher
+4. Vignere Cipher
+5. Reverse Cipher
+6. Column Cipher
+7. Playfair
+8. p8 and p10 permutation
+9. DES 8bit key generation
+10. Login Authentication
+11. Multiplicative Cipher
+12. Password Verification
+13. Diffie Hellman
+14. Affine Cipher
+15. MD5 bit padding
+16. Vignere using Table
+17. Euclid Sub
+18. Euclid Div
+19. Euclid Extended
+20. Chinese remainder theorem
+
+Python programs:
+1. RSA Digital signature
+2. fernet
+3. onetimepad
+4. Diffie Hellman
+5. SHA256
+6. MD5
+7. Python libraries
